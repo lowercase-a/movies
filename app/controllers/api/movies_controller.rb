@@ -27,9 +27,18 @@ class Api::MoviesController < ApplicationController
     the_id = params[:id]
     @movie = Movie.find_by(id: the_id)
     # actually update the movie i want to update
-    @movie.title = params[:title]
-    @movie.runtime = params[:runtime]
+    @movie.runtime = params[:runtime] || @movie.runtime
+    @movie.title = params[:title] || @movie.title
     @movie.save
     render 'show.json.jbuilder'
+  end
+
+  def destroy
+    # find the movie
+    the_id = params[:id]
+    @movie = Movie.find_by(id: the_id)
+    # destroy the movie
+    @movie.destroy
+    render 'destroy.json.jbuilder'
   end
 end
